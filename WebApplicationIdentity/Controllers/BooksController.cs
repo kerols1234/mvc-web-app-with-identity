@@ -34,6 +34,7 @@ namespace WebApplicationIdentity.Controllers
                 return View(Book);
             }
 
+            //Async
             Book = _db.Books.FirstOrDefault(o=> o.Id == id);
             if(Book == null)
             {

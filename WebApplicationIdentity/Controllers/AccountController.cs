@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplicationIdentity.Controllers;
 using WebApplicationIdentity.Models;
 
 namespace WebApplicationIdentity.Controllers
@@ -26,10 +22,10 @@ namespace WebApplicationIdentity.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Register(string returnurl=null)
+        public IActionResult Register(string returnurl=null)
         {
             ViewData["ReturnUrl"] = returnurl;
-            RegisterViewModel registerViewModel = new RegisterViewModel();
+            RegisterViewModel registerViewModel = new();
             return View(registerViewModel);
         }
 
@@ -38,7 +34,7 @@ namespace WebApplicationIdentity.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnurl=null)
         {
             ViewData["ReturnUrl"] = returnurl;
-            returnurl = returnurl ?? Url.Content("~/");
+            returnurl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
@@ -67,7 +63,7 @@ namespace WebApplicationIdentity.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnurl=null)
         {
             ViewData["ReturnUrl"] = returnurl;
-            returnurl = returnurl ?? Url.Content("~/");
+            returnurl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
