@@ -34,6 +34,7 @@ namespace WebApplicationIdentity.Controllers
                 return View(Book);
             }
 
+            //Async
             Book = _db.Books.FirstOrDefault(o=> o.Id == id);
             if(Book == null)
             {
@@ -76,11 +77,11 @@ namespace WebApplicationIdentity.Controllers
             var b = await _db.Books.FirstOrDefaultAsync(a => a.Id == id);
             if (b == null)
             {
-                return Json(new { success = false, message = "Error while deleting" });
+                return NotFound($"Book {id} no found");
             }
             _db.Books.Remove(b);
             await _db.SaveChangesAsync();
-            return Json(new { success = true, message = "Delete successfull" });
+            return Ok();
         }
         #endregion
     }
